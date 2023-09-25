@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Users")
+@Table(name = "users")
 @Entity
 public class Users {
     @Id
@@ -24,6 +24,7 @@ public class Users {
 
     private String token;
 
+    @Column(name = "token_expired_at")
     private Long tokenExpredAt;
 
     @OneToMany(mappedBy = "user")
