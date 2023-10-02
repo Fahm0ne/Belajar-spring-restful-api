@@ -1,5 +1,6 @@
 package com.mff.restfulapi.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -31,10 +32,13 @@ public class Movies {
     private String country;
     private String awards;
     private String poster;
+
+    @Column(name = "imdb_rating")
     private String imdbRating;
-    private String imdbVotes;
+    @Column(name = "imdb_votes")
+    private Integer imdbVotes;
     private String type;
-    private String totalSeasons;
+
     private String response;
 
 }
