@@ -1,13 +1,12 @@
 package com.mff.restfulapi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,9 +35,12 @@ public class Movies {
     @Column(name = "imdb_rating")
     private String imdbRating;
     @Column(name = "imdb_votes")
-    private Integer imdbVotes;
+    private String imdbVotes;
     private String type;
 
     private String response;
+
+    @OneToMany(mappedBy = "movies")
+    private List<Rating> rating;
 
 }

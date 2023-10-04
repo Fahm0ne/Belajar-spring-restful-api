@@ -4,6 +4,8 @@ import com.mff.restfulapi.model.MovieTitleResponse;
 
 public interface MovieService {
 
-    MovieTitleResponse get(String title);
+    MovieTitleResponse save (String title);
+
+   MovieTitleResponse getMovies(String imdbId);
 
 }

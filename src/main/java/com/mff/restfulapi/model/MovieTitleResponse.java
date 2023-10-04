@@ -1,10 +1,13 @@
 package com.mff.restfulapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mff.restfulapi.entity.Rating;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -59,12 +62,15 @@ public class MovieTitleResponse {
     @JsonProperty(value = "imdbRating")
     private String imdbRating;
 
-    private Integer imdbVotes;
+    private String imdbVotes;
 
     @JsonProperty(value = "Type" )
     private String type;
 
     @JsonProperty(value = "Response" )
     private String response;
+
+    @JsonProperty(value = "Ratings")
+    private List<Rating> rating;
 
 }

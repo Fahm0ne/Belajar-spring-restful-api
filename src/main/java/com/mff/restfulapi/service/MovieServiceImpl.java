@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService{
@@ -19,7 +20,7 @@ public class MovieServiceImpl implements MovieService{
     @Autowired
     private RestTemplate restTemplate;
     @Override
-    public MovieTitleResponse get(String title) {
+    public MovieTitleResponse save (String title) {
 
         String apiUrl = "http://www.omdbapi.com/?apikey=2d8d4885&t="+title;
 
@@ -48,6 +49,7 @@ public class MovieServiceImpl implements MovieService{
             movies.setType(response.getBody().getType());
             movies.setResponse(response.getBody().getResponse());
             movies.setTitle(response.getBody().getTitle());
+            movies.setRating(response.getBody().getRating());
 
             // Simpan data film ke dalam database
             movieRepository.save(movies);
@@ -58,6 +60,39 @@ public class MovieServiceImpl implements MovieService{
         }
 
 
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public MovieTitleResponse getMovies(String imdbId) {
+
+        Movies movies =  movieRepository.findById(imdbId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND , "imdbId not found"));
+
+        MovieTitleResponse response = MovieTitleResponse.builder()
+                .imdbID(movies.getImdbID())
+                .title(movies.getTitle())
+                .year(movies.getYear())
+                .rated(movies.getRated())
+                .released(movies.getReleased())
+                .runtime(movies.getRuntime())
+                .genre(movies.getGenre())
+                .director(movies.getDirector())
+                .writer(movies.getWriter())
+                .actors(movies.getActors())
+                .plot(movies.getPlot())
+                .language(movies.getLanguage())
+                .country(movies.getCountry())
+                .awards(movies.getAwards())
+                .poster(movies.getPoster())
+                .imdbRating(movies.getImdbRating())
+                .imdbVotes(movies.getImdbVotes())
+                .type(movies.getType())
+                .rating(movies.getRating())
+                .response(movies.getResponse())
+                .build();
+
+        return response;
     }
 
 }
